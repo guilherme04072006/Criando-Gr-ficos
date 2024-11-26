@@ -1,38 +1,39 @@
-import { getCSS, tickConfig } from "./common.js"
+import { getCSS, tickConfig, criarGrafico } from "./common.js"
+
 async function quantidadeUsuariosPorRede() {
-    const url = 'https://raw.githubusercontent.com/guilhermeonrails/api/main/numero-usuarios.json'
+    const url = 'https://raw.githubusercontent.com/guilhermeonrails/api/main/numero-usuarios.json&#39;
     const res = await fetch(url)
     const dados = await res.json()
     const nomeDasRedes = Object.keys(dados)
-    const quantidaDeUsuarios = Object.values(dados)
+    const quantidadeDeUsuarios = Object.values(dados)
 
     const data = [
         {
             x: nomeDasRedes,
-            y: quantidaDeUsuarios,
+            y: quantidadeDeUsuarios,
             type: 'bar',
             marker: {
                 color: getCSS('--primary-color')
             }
         }
     ]
- 
-    const laytout = {
+
+    const layout = {
         plot_bgcolor: getCSS('--bg-color'),
         paper_bgcolor: getCSS('--bg-color'),
         title: {
-            Text: 'Redes sociais com mais usuários',
+            text: 'Redes sociais com mais usuários no mundo',
             x: 0,
             font: {
                 color: getCSS('--primary-color'),
-                size: 30,
-                font: getCSS('--font')
+                family: getCSS('--font'),
+                size: 30
             }
         },
         xaxis: {
             tickfont: tickConfig,
             title: {
-                Text: 'Nome das redes',
+                text: 'nome das redes sociais',
                 font: {
                     color: getCSS('--secondary-color')
                 }
@@ -41,18 +42,16 @@ async function quantidadeUsuariosPorRede() {
         yaxis: {
             tickfont: tickConfig,
             title: {
-                Text: 'Bilhões de usuários ativos',
+                text: 'bilhões de usuários ativos',
                 font: {
                     color: getCSS('--secondary-color')
                 }
             }
         }
+
     }
-    
-        const grafico = document.createElement('div')
-        grafico.className = 'grafico'
-        document.getElementById('graficos-container').appendChild(grafico)
-        ploty.newPlot(grafico, data, laytout)
+
+    criarGrafico(data, layout)
 }
 
-quantidadeUsuariosPorRede() 
+quantidadeUsuariosPorRede()
